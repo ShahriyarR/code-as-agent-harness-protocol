@@ -1,3 +1,9 @@
+# What?
+
+Based on the [Code as Agent Harness](https://arxiv.org/abs/2605.18747) paper.
+
+This SKILL.md formalizes the Code as Agent Harness Protocol.
+
 # Activation
 
 Possible prompts to activate this skill:
