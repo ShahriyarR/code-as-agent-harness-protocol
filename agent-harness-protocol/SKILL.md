@@ -104,6 +104,29 @@ Memory is not the context window. Memory is a managed state layer.
 history into a structured log and **offload** raw traces to `.agent/logs/`. Use
 Semantic Memory to retrieve offloaded plans when needed.
 
+**Session Telemetry Log:** Maintain `.agent/logs/latest_session.json` as a
+structured telemetry log. Update it immediately after performing any harness-critical
+action. Required fields:
+
+- `probe_script_run_before_edit` — set to `true` after running a probe/diagnostic
+  script before any file edit.
+- `tools_dir_queried_first` — set to `true` after checking `.agent/tools/`
+  before implementing new functionality.
+- `plan_commit_before_source_commit` — set to `true` after committing a `PLAN.md`
+  update before its corresponding source-code commit.
+- `test_commit_follows_source` — set to `true` after committing tests that
+  verify a source change.
+- `full_suite_passed` — set to `true` after running the complete regression
+  suite and observing a pass.
+- `dependency_verified_before_exec` — set to `true` after verifying that all
+  dependencies in a plan's Read Set have reached Correctness Convergence.
+- `git_pull_before_each_edit` — set to `true` after pulling latest changes
+  before beginning an edit session.
+- `human_approval_recorded` — set to `true` after obtaining and recording
+  explicit human approval for a gated action.
+- `failure_attribution_logged` — set to `true` after logging the root cause
+  of any failure to `.agent/experience/`.
+
 ### 3.3 Tool Use (Use Governed Executable Interfaces)
 
 Tools are the primary observation and action interface.
