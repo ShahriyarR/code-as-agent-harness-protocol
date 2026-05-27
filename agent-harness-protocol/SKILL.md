@@ -195,7 +195,7 @@ The following actions **require human approval**:
 - [ ] If a dependency changes, pause and re-verify your **Read Set**.
 
 **Before marking a Feature "Done":**
-- [ ] Reproduction script passes + no regressions.
+- [ ] Run the full regression suite and set `full_suite_passed` when it passes.
 - [ ] Code is covered by new tests and matches **Organicity** (style/patterns).
 - [ ] Commit tests after the source-code commit they verify and set `test_commit_follows_source`.
 - [ ] Reusable skills are saved to `.agent/tools/`.
