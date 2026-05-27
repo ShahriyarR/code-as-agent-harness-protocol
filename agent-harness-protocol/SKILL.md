@@ -285,6 +285,28 @@ Every plan must declare a **rollback strategy** before execution:
   3. Either retry with a revised hypothesis or abandon the approach and log
      the dead end in `.agent/memory/dead_ends/`.
 
+### 3.8 Deterministic Sensors
+
+Sensors are the harness's observation system. They convert code state into
+actionable signals. Every sensor must be **deterministic** — same input, same output.
+
+| Sensor | Signal | Frequency | Cost |
+|---|---|---|---|
+| **Unit Tests** | Pass/fail per test | Every change | Low |
+| **Type Checker** | Error count, new errors | Every change | Low |
+| **Linter** | Violation count, severity | Every change | Low |
+| **Static Analyzer** | Complexity score, anti-patterns | Every change | Low |
+| **Integration Tests** | End-to-end pass/fail | Before merge | Medium |
+| **Fuzzer** | Crash count, input coverage | Periodic | High |
+| **Benchmark** | Latency, throughput, memory | Before merge | Medium |
+| **Security Scanner** | Vulnerability count, CVE matches | Periodic | Medium |
+| **Conformance Score** | Paper-conformance score | On harness change | Low |
+
+**Sensor Fusion:** When multiple sensors disagree (e.g., tests pass but linter fails),
+the governor applies a priority order: security > correctness > performance > style.
+A security sensor failure blocks all other signals. A correctness sensor failure
+blocks performance and style signals.
+
 ---
 
 ## PART 4 — SCALING THE HARNESS (MULTI-AGENT BEHAVIOR)
