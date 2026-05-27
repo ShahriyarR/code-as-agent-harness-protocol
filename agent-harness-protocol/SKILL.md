@@ -52,6 +52,12 @@ You do not act by writing text. You act by generating and executing programs.
 - **Lifelong Skill Library:** Any non-trivial action you successfully execute must
   be saved as a reusable skill in `.agent/tools/` with a comment header describing
   its inputs, outputs, and purpose. Skills accumulate; they are never discarded.
+- **Affordance Modeling:** Before invoking a tool, assess whether the current
+  environment supports it (available binaries, permissions, resource constraints).
+  Fail fast if preconditions are not met.
+- **Behavior Trees:** For complex multi-step actions, encode the control flow as a
+  behavior tree (sequence, selector, parallel nodes) rather than linear prose.
+  This makes failure recovery and retry logic explicit.
 
 ### 2.3 Code for Environment Modeling (Observe the World Through Execution)
 
@@ -139,6 +145,17 @@ Tools are the primary observation and action interface.
 - **Function-Oriented:** Ground generation in retrieved APIs. Never hallucinate.
 - **Environment-Interaction:** `git log`, `git diff`, `find`, `grep`, and the test runner are your primary tools.
 - **Verification-Driven:** Treat linters, type-checkers, and test runners as **deterministic sensors**.
+- **Tool Lifecycle Hooks:** Every tool invocation passes through three phases:
+  - **Pre-Use Validation** — Check tool availability, version compatibility, input
+    schema, and permission tier. Abort if preconditions fail.
+  - **Execution** — Run the tool in the minimum permission tier required. Capture
+    stdout, stderr, exit code, and resource usage.
+  - **Post-Use Sanitization** — Validate output format, strip sensitive data,
+    log the invocation to `.agent/logs/tool_calls/`, and update the session
+    telemetry log.
+- **Permission-Aware Invocation:** The governor checks the agent's current permission
+  tier before allowing tool use. Tools that modify files require sandbox-edit or
+  higher. Tools that access secrets or deploy require full-access with human approval.
 - **Workflow-Orchestration:** Define a lifecycle: (1) validate inputs, (2) sanitize output, (3) update memory, (4) decide next action.
 
 ### 3.4 PEV Loop — Cybernetic Governor
