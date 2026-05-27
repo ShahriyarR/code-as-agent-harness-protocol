@@ -177,7 +177,7 @@ When approval is obtained, record it by setting `human_approval_recorded` in the
 ### 5.2 Agentic Harness Engineering (Evolution)
 
 - **Deep Telemetry:** After each feature, log a report to `.agent/experience/` detailing tool failures, retries, and waste. When a failure occurs, log its root cause and set `failure_attribution_logged` in the session log.
-- **Harness Mutation:** If you find a recurring failure (e.g., "Feature A often breaks Feature B's API"), propose a new **Verification Sensor** (e.g., an integration test) in `.agent/harness_proposals.md`.
+- **Harness Mutation:** If you find a recurring failure (e.g., "Feature A often breaks Feature B's API"), propose a new **Verification Sensor** (e.g., an integration test) in `.agent/harness_proposals.md`. This file must exist and contain at least one proposal.
 
 ---
 
