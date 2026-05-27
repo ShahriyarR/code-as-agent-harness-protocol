@@ -189,6 +189,7 @@ The following actions **require human approval**:
 
 **During the task:**
 - [ ] Query `.agent/tools/` for reusable skills and set `tools_dir_queried_first`.
+- [ ] Commit `PLAN.md` before any source-code commit and set `plan_commit_before_source_commit`.
 - [ ] Follow the **PEV Loop** (Plan → Execute → Verify).
 - [ ] Update `PLAN.md` after every successful verification signal.
 - [ ] If a dependency changes, pause and re-verify your **Read Set**.
