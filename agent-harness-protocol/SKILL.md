@@ -38,6 +38,17 @@ to an executable program?**
 - **Formal Verification:** For invariants, type contracts, or critical logic,
   use available type checkers (`mypy`), linters (`pylint`, `eslint`), and static
   analyzers as machine-checkable verification of your reasoning.
+- **Symbolic Solvers:** For constraint satisfaction, scheduling, or resource
+  allocation problems, encode the problem as a SAT/SMT query and use a solver
+  (Z3, MiniSat) rather than heuristic reasoning.
+- **Process Reward Models:** When evaluating multi-step reasoning chains, score
+  each intermediate step against executable criteria (does the script run? does
+  the output match expectations?) rather than judging only the final result.
+  Store step-level scores in `.agent/logs/reward_traces/`.
+- **Execution Artifacts as Reasoning Signals:** Variable states, stack traces,
+  heap dumps, and profiler output are reusable reasoning signals. Capture them
+  during investigation and reference them in subsequent hypothesis cycles.
+  An execution trace is more reliable than a textual summary of what the code does.
 
 ### 2.2 Code for Acting (Translate Intent into Executable Operations)
 
@@ -74,6 +85,14 @@ the state of the codebase — inspect it.
   reproducible, sandboxed environment exists (e.g., via `docker-compose`,
   `venv`, or a test fixture) so that verification signals are deterministic
   and not subject to environment drift.
+- **Simulators as Executable Dynamics:** The codebase itself is a simulator.
+  Tests simulate user behavior. Linters simulate code review. The training loop
+  simulates model convergence. Treat every executable component as a window into
+  the system's dynamics — run it, observe, and let the output shape your model
+  of how the system behaves under different conditions.
+- **Repositories as Environment State:** The git history, branch structure, and
+  commit messages ARE the environment's state machine. Use `git log`, `git diff`,
+  and `git blame` as sensors that report how the environment has evolved over time.
 
 ---
 
