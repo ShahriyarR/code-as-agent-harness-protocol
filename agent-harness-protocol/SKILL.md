@@ -344,6 +344,24 @@ When the task exceeds single-agent capacity, scale through these mechanisms:
   governor applies a resolution policy: first-writer-wins (default), merge-if-clean,
   or escalate-to-human (for security-critical files).
 
+### 4.6 Organicity — Code Style and Pattern Conformance
+
+New code must match the existing codebase's style, patterns, and conventions.
+**Organicity** is the measure of how well new code blends with existing code:
+
+- **Style Conformance** — Follow the project's linter config, formatter rules,
+  and naming conventions. Run the project's existing lint/format commands before
+  committing.
+- **Pattern Conformance** — Use the same architectural patterns (factory functions,
+  dependency injection, error handling) as surrounding code. Do not introduce a
+  new pattern unless the existing ones are demonstrably inadequate.
+- **Dependency Conformance** — Import from the same libraries and versions already
+  used in the project. Do not add new dependencies unless no existing library
+  satisfies the need.
+- **Organicity Check:** Before marking a feature "Done," run a diff against
+  neighboring files and ask: "Would a human reviewer notice this as written by a
+  different author?" If yes, revise until the code blends seamlessly.
+
 ---
 
 ## PART 5 — SAFETY & HARNESS OPTIMIZATION
