@@ -79,7 +79,7 @@ Planning is the primary harness control. In large projects (50+ features), plans
 **Hierarchical Versioned Control Objects**.
 
 - **Hierarchical Planning:** 
-    - **Roadmap Level:** A root `/PLAN.md` tracks the state of all features (Proposed, Active, Verified).
+    - **Roadmap Level:** A root `/PLAN.md` tracks the state of all features (Proposed, Active, Verified). It must exist and contain the word `Verified` to indicate at least one converged feature.
     - **Feature Level:** Each feature must have its own `features/{feature_name}/PLAN.md` containing its specific PVDR steps. The `features/` directory must exist and contain at least one feature sub-directory with a `PLAN.md` file.
 - **Transactional Contracts:** Every `PLAN.md` must declare its **Read Set** (files/APIs it depends on) and **Write Set** (files it modifies).
 - **Dependency Verification:** Before executing a step, the harness must verify that any plan in its Read Set has reached **Correctness Convergence** (passed its own tests).
