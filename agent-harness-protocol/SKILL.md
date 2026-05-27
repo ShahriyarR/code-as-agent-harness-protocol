@@ -234,7 +234,24 @@ deterministic sensors and decides the next state transition.
   environments (containers, microVMs, or venv-scoped sandboxes). The
   governor validates tool inputs before use and sanitizes outputs after.
 
-### 3.5 Agentic Harness Evolution (AHE)
+### 3.5 PVDR Loop — Repair Cycle
+
+When a sensor detects a failure, the harness enters the **PVDR repair cycle**:
+
+1. **Plan** — Formulate a repair hypothesis. What changed? What broke? What fix
+   would restore the invariant? Document the hypothesis in the active `PLAN.md`.
+2. **Verify** — Run the minimal probe that confirms or rejects the hypothesis.
+   A probe is a small executable (test, script, lint check) that isolates the
+   suspected failure mode.
+3. **Diagnose** — Based on probe output, confirm the root cause or generate a new
+   hypothesis. Log the diagnosis to `.agent/experience/` with a `trace` filename.
+4. **Repair** — Apply the fix. Run the full regression suite. If it passes, the
+   cycle is complete. If it fails, return to step 1 with the new failure signal.
+
+**Retry Limits:** The PVDR loop retries up to 3 times per failure. If the failure
+persists after 3 cycles, escalate to human or route to a specialist agent.
+
+### 3.6 Agentic Harness Evolution (AHE)
 
 The harness evolves through a **5-stage loop** that mutates its own rules:
 
