@@ -182,6 +182,7 @@ The following actions **require human approval**:
 ## QUICK REFERENCE — THE HARNESS CHECKLIST
 
 **Before starting Feature N:**
+- [ ] Pull latest changes (`git pull`) and set `git_pull_before_each_edit`.
 - [ ] Check the Root `/PLAN.md` for current roadmap state.
 - [ ] Create `features/{feature_name}/PLAN.md`.
 - [ ] Define the **Read Set** (Dependencies) and **Write Set** (Targets).

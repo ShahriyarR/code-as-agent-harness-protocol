@@ -1,1 +1,1 @@
-{"probe_script_run_before_edit": true, "tools_dir_queried_first": true, "plan_commit_before_source_commit": true, "test_commit_follows_source": true, "full_suite_passed": true, "dependency_verified_before_exec": true}
+{"probe_script_run_before_edit": true, "tools_dir_queried_first": true, "plan_commit_before_source_commit": true, "test_commit_follows_source": true, "full_suite_passed": true, "dependency_verified_before_exec": true, "git_pull_before_each_edit": true}
