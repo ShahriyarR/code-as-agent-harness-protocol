@@ -244,7 +244,63 @@ Agents interact through defined modes and workflow topologies:
 
 ## PART 5 — SAFETY & HARNESS OPTIMIZATION
 
-### 5.1 Human-in-the-Loop Gates
+### 5.1 Multi-Tier Permission Model
+
+The harness enforces three permission tiers. Every action runs at the minimum
+tier sufficient for its purpose:
+
+| Tier | Capabilities | Escalation Trigger |
+|---|---|---|
+| **Read-Only** | Inspect files, run tests, query sensors. No writes. | Needs to modify code. |
+| **Sandbox-Edit** | Create/edit files in scoped directories, run code in venv/container. No dep changes, no secrets. | Needs to modify deps, access credentials, or touch security-critical code. |
+| **Full-Access** | All capabilities including dependency changes, secret access, production deployment. | **Requires human approval.** |
+
+**Approval Durability:** When a human approves a full-access action, the approval
+becomes durable harness state. It is recorded in `.agent/memory/approvals/` with:
+- The approved action scope (what was authorized).
+- An expiration (single-use, time-bounded, or persistent).
+- Updated permission rules and escalation policies derived from the approval.
+
+**Automatic Downgrade:** After a configurable number of failures at a given tier,
+the governor downgrades the agent's permission level and requires re-verification
+before escalation.
+
+### 5.2 Verification Stack
+
+Every artifact the harness produces or consumes declares what it verifies and what
+it cannot. The stack is layered — each layer catches failures the previous one
+missed:
+
+| Layer | Tool | Catches | Cannot Catch |
+|---|---|---|---|
+| **Unit Tests** | pytest, unittest | Logic errors, regressions | Integration bugs, performance |
+| **Integration Tests** | e2e suites, API tests | Cross-module failures | Edge-case load, security |
+| **Property-Based Tests** | hypothesis, fast-check | Invariant violations | Specific input bugs |
+| **Fuzzers** | afl, libfuzzer | Crash inputs, memory safety | Logical correctness |
+| **Static Analyzers** | pylint, eslint, mypy | Type errors, anti-patterns | Runtime behavior |
+| **Type Checkers** | mypy, tsc | Type contract violations | Untyped dynamic behavior |
+| **Security Scanners** | bandit, semgrep | Known vulnerability patterns | Business-logic flaws |
+| **Formal Specs** | TLA+, Lean | Protocol invariants, deadlock | Implementation bugs |
+| **Human Review** | Code review | Architectural concerns, UX | Exhaustive coverage |
+
+The harness should run at minimum: unit tests, static analyzers, and type checkers
+on every change. Higher layers activate based on the risk tier of the modification.
+
+### 5.3 Transactional Shared State
+
+Every agent action declares a **transaction contract** before execution:
+
+- **Read Set** — Files, APIs, or state the action depends on.
+- **Write Set** — Files or state the action modifies.
+- **Assumptions** — Preconditions (e.g., "Feature B's PLAN.md is Verified").
+- **Version Dependencies** — Specific commit hashes or plan versions.
+- **Conflict Policy** — How to handle concurrent modifications (lock, merge, abort).
+
+After merge, the harness performs **semantic re-verification**: all features whose
+Read Set overlaps with the Write Set must re-run their validation. If re-verification
+fails, the harness rolls back to the last known-good state.
+
+### 5.4 Human-in-the-Loop Gates
 
 The following actions **require human approval**:
 - Transmitting secrets or credentials.
