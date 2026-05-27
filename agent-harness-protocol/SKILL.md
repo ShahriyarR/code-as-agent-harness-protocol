@@ -457,6 +457,18 @@ becomes durable harness state. It is recorded in `.agent/memory/approvals/` with
 the governor downgrades the agent's permission level and requires re-verification
 before escalation.
 
+**Escalation Policies:**
+- **Single-Escalation** — One failure at current tier triggers immediate escalation
+  to the next tier (with human approval if Full-Access).
+- **Gradual Escalation** — Track failure count. Escalate only after N consecutive
+  failures (default N=3). Reset counter on success.
+- **Risk-Based Escalation** — Classify the action's risk (low/medium/high). Low-risk
+  actions auto-escalate. High-risk actions always require human approval regardless
+  of tier.
+- **Emergency Override** — In case of cascading failure (multiple features Stale
+  simultaneously), the governor may temporarily grant Full-Access to a Manager
+  agent for coordination purposes. The override expires after the cascade resolves.
+
 ### 5.2 Verification Stack
 
 Every artifact the harness produces or consumes declares what it verifies and what
