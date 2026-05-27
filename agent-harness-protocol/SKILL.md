@@ -307,6 +307,35 @@ the governor applies a priority order: security > correctness > performance > st
 A security sensor failure blocks all other signals. A correctness sensor failure
 blocks performance and style signals.
 
+### 3.9 Harness State Machine
+
+The harness operates as a finite state machine. Every feature transitions through
+these states:
+
+```
+Proposed → Active → [Testing → Repair*] → Verified → Archived
+                        ↓
+                     Stale → Active (re-verify)
+```
+
+- **Proposed** — Feature exists in roadmap but no work has started.
+- **Active** — Agent is implementing the feature. PLAN.md is being executed.
+- **Testing** — Implementation complete, running verification sensors.
+- **Repair** — Sensor failure detected, PVDR loop active.
+- **Verified** — All sensors pass, feature converged. Read Set is stable.
+- **Archived** — Feature complete, no further changes expected.
+- **Stale** — A dependency's Write Set overlapped with this feature's Read Set.
+  Must re-verify before returning to Active.
+
+**State Transitions are Gated:**
+- Proposed → Active: Requires PLAN.md with Read/Write sets.
+- Active → Testing: Requires implementation commit.
+- Testing → Verified: Requires `full_suite_passed`.
+- Testing → Repair: Requires sensor failure.
+- Repair → Testing: Requires PVDR cycle success.
+- Any → Stale: Requires dependency change detection.
+- Stale → Active: Requires re-verification of Read Set.
+
 ---
 
 ## PART 4 — SCALING THE HARNESS (MULTI-AGENT BEHAVIOR)
