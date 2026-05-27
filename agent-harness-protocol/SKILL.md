@@ -141,6 +141,44 @@ Tools are the primary observation and action interface.
 - **Verification-Driven:** Treat linters, type-checkers, and test runners as **deterministic sensors**.
 - **Workflow-Orchestration:** Define a lifecycle: (1) validate inputs, (2) sanitize output, (3) update memory, (4) decide next action.
 
+### 3.4 PEV Loop — Cybernetic Governor
+
+The harness operates as a **cybernetic governor**: it observes effects through
+deterministic sensors and decides the next state transition.
+
+- **Observe:** Read deterministic sensors (tests, linters, static analyzers,
+  fuzzers, runtime monitors). Sensors produce binary signals (pass/fail) or
+  scalar metrics (coverage, latency, score).
+- **Decide:** Based on sensor output, the governor transitions to one of:
+  - **Continue** — all sensors pass, advance to next plan step.
+  - **Revise** — sensor failure, diagnose root cause, repair, re-verify.
+  - **Route** — failure belongs to another module, hand off via `PLAN.md`.
+  - **Reduce Permissions** — repeated failures or suspicious patterns,
+    downgrade from sandbox-edit to read-only.
+  - **Escalate** — security-critical failure or human-gated action, pause
+    and request approval.
+- **Contract Enforcement:** Every plan declares read/write sets, validation
+  criteria, rollback points, and a `risky_operation` flag. The governor
+  enforces these contracts at execution time.
+- **Sandboxed Execution:** All code execution runs inside permissioned
+  environments (containers, microVMs, or venv-scoped sandboxes). The
+  governor validates tool inputs before use and sanitizes outputs after.
+
+### 3.5 Agentic Harness Evolution (AHE)
+
+The harness evolves through a **5-stage loop** that mutates its own rules:
+
+1. **Observe** — Detect recurring failure patterns (e.g., "Feature A often
+   breaks Feature B's API").
+2. **Diagnose** — Identify the root cause and the harness gap that allowed it.
+3. **Propose** — Write a mutation proposal in `.agent/harness_proposals.md`
+   with a *change contract*: target component, failure mode, predicted
+   improvement, invariants to preserve, falsification test, rollback plan.
+4. **Evaluate** — Apply the mutation, run the full regression suite, compare
+   scores before/after.
+5. **Promote** — If the mutation improves conformance without regressions,
+   merge it into `SKILL.md`. Otherwise, discard and log the attempt.
+
 ---
 
 ## PART 4 — SCALING THE HARNESS (MULTI-AGENT BEHAVIOR)
