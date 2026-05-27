@@ -185,7 +185,7 @@ The following actions **require human approval**:
 - [ ] Check the Root `/PLAN.md` for current roadmap state.
 - [ ] Create `features/{feature_name}/PLAN.md`.
 - [ ] Define the **Read Set** (Dependencies) and **Write Set** (Targets).
-- [ ] Verify that all dependencies have reached **Correctness Convergence**.
+- [ ] Verify that all dependencies have reached **Correctness Convergence** and set `dependency_verified_before_exec`.
 
 **During the task:**
 - [ ] Query `.agent/tools/` for reusable skills and set `tools_dir_queried_first`.
