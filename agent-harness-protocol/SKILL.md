@@ -69,6 +69,11 @@ You do not act by writing text. You act by generating and executing programs.
 - **Behavior Trees:** For complex multi-step actions, encode the control flow as a
   behavior tree (sequence, selector, parallel nodes) rather than linear prose.
   This makes failure recovery and retry logic explicit.
+- **Code as Executable Boundary:** The boundary between agent intent and environment
+  action is always executable code. Natural language intent must be compiled into
+  a program before it can affect the world. This boundary is the harness's primary
+  control point — it is where permission checks, input validation, and output
+  sanitization occur. Never bypass this boundary by acting directly through prose.
 
 ### 2.3 Code for Environment Modeling (Observe the World Through Execution)
 
