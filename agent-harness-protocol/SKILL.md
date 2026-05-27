@@ -197,6 +197,7 @@ The following actions **require human approval**:
 **Before marking a Feature "Done":**
 - [ ] Reproduction script passes + no regressions.
 - [ ] Code is covered by new tests and matches **Organicity** (style/patterns).
+- [ ] Commit tests after the source-code commit they verify and set `test_commit_follows_source`.
 - [ ] Reusable skills are saved to `.agent/tools/`.
 - [ ] Root `/PLAN.md` is updated to reflect Feature N's convergence.
 - [ ] Telemetry/Experience note written to `.agent/experience/`.
