@@ -192,7 +192,49 @@ The harness evolves through a **5-stage loop** that mutates its own rules:
 | **Coder** | Implement implementation, pass the "repro" test | Source files |
 | **Tester** | Write independent tests to avoid circular reasoning | `tests/` directory |
 
-### 4.2 Shared Harness Synchronization
+### 4.2 Shared Harness Substrate
+
+Multi-agent coordination requires a shared state layer. The substrate exists at
+four representation levels, each adding fidelity and overhead:
+
+| Level | Description | When to Use |
+|---|---|---|
+| **Implicit/File-Only** | Agents coordinate solely through git commits and file diffs. No explicit shared state. | Single-agent tasks, simple features. |
+| **Repository-Based** | `PLAN.md` files, feature directories, and structured logs serve as coordination artifacts. | Multi-feature projects with dependency chains. |
+| **Execution-Based** | A running process (blackboard service, message queue) mediates agent communication and state. | Real-time collaboration, conflict resolution. |
+| **Blackboard/Shared-State** | A central data structure (in-memory or persisted) holds the current world model, agent goals, and arbitration rules. | Complex multi-agent swarms with adaptive routing. |
+
+**Convergence Patterns** determine when a feature or plan is considered "done":
+
+| Pattern | Gate | Use Case |
+|---|---|---|
+| **Correctness** | All tests pass, no regressions. | Default for all features. |
+| **Security** | Security scanner passes, no critical vulnerabilities. | Auth, crypto, network-facing code. |
+| **Performance** | Benchmarks meet or exceed baseline thresholds. | Hot paths, data pipelines. |
+| **Score-Based** | Conformance score meets target (e.g., paper-conformance ≥ 70). | Harness evolution, skill improvement. |
+| **Consensus** | ≥ N agents independently agree the output is correct. | High-stakes decisions, code review. |
+| **Implicit** | No explicit gate; agent self-declares convergence. | Low-risk changes, documentation. |
+
+The harness should default to **Repository-Based** substrate with **Correctness** convergence. Escalate to higher levels only when the task demands it.
+
+### 4.3 Multi-Agent Collaboration
+
+Agents interact through defined modes and workflow topologies:
+
+**Interaction Modes:**
+- **Collaborative Synthesis** — Multiple agents contribute to a single artifact (e.g., co-authoring a `PLAN.md`).
+- **Critique-and-Repair** — One agent produces, another reviews and suggests fixes. The producer iterates until the critic approves.
+- **Adversarial Validation** — One agent tries to break what another built (fuzzing, edge-case generation, security probing).
+- **Reasoning Debate** — Agents propose competing solutions; a judge agent evaluates arguments and selects the winner.
+
+**Workflow Topologies:**
+- **Chain** — A → B → C. Each agent's output feeds the next. Simple but fragile.
+- **Cyclic** — A → B → A. Iterative refinement loops until convergence.
+- **Hierarchical** — Manager delegates to specialists, collects results, synthesizes.
+- **Star** — Central hub routes tasks to a pool of interchangeable agents.
+- **Adaptive** — Topology changes dynamically based on task complexity and agent availability.
+
+### 4.4 Shared Harness Synchronization
 
 - **Transactional Consistency:** If Feature A modifies a file in Feature B's **Read Set**, Feature B's plan must be marked "Stale" and re-verified.
 - **Artifact-Mediated Communication:** Agents communicate via `PLAN.md`, diffs, and logs — not just message passing.
