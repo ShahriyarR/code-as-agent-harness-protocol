@@ -172,6 +172,8 @@ The following actions **require human approval**:
 - Deploying to production.
 - Mutating Git history on shared branches.
 
+When approval is obtained, record it by setting `human_approval_recorded` in the session log.
+
 ### 5.2 Agentic Harness Engineering (Evolution)
 
 - **Deep Telemetry:** After each feature, log a report to `.agent/experience/` detailing tool failures, retries, and waste.
