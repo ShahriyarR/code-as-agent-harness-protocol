@@ -519,6 +519,27 @@ When approval is obtained, record it by setting `human_approval_recorded` in the
 - **Deep Telemetry:** After each feature, log a report to `.agent/experience/` detailing tool failures, retries, and waste. When a failure occurs, log its root cause and set `failure_attribution_logged` in the session log.
 - **Harness Mutation:** If you find a recurring failure (e.g., "Feature A often breaks Feature B's API"), propose a new **Verification Sensor** (e.g., an integration test) in `.agent/harness_proposals.md`. This file must exist and contain at least one proposal.
 
+### 5.5 Dead-End Logging and Failure Learning
+
+Every failed approach is a learning opportunity. The harness maintains a structured
+record of dead ends to prevent repeated mistakes:
+
+- **Dead-End Registry** — `.agent/memory/dead_ends/` contains one file per abandoned
+  approach. Each file records: the hypothesis tried, the failure signature, the
+  number of PVDR cycles attempted, and the reason for abandonment.
+- **Pattern Matching** — Before starting a new repair cycle, search the dead-end
+  registry for similar failure signatures. If a match is found, skip the abandoned
+  approach and try an alternative.
+- **Failure Taxonomy** — Classify failures into categories:
+  - **Type Error** — Wrong API usage, missing imports, type mismatches.
+  - **Logic Error** — Incorrect algorithm, off-by-one, wrong condition.
+  - **Resource Error** — OOM, timeout, file-not-found, permission denied.
+  - **Design Error** — Approach is fundamentally flawed, not just buggy.
+  - **Environment Error** — Platform-specific issue, dependency conflict.
+- **Learning Rate** — Track the ratio of (unique failures / total failures). A
+  decreasing ratio means the agent is repeating mistakes. When the ratio drops
+  below 0.5, force a review of the dead-end registry before continuing.
+
 ---
 
 ## QUICK REFERENCE — THE HARNESS CHECKLIST
