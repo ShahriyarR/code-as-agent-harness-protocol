@@ -188,6 +188,7 @@ The following actions **require human approval**:
 - [ ] Verify that all dependencies have reached **Correctness Convergence**.
 
 **During the task:**
+- [ ] Query `.agent/tools/` for reusable skills and set `tools_dir_queried_first`.
 - [ ] Follow the **PEV Loop** (Plan → Execute → Verify).
 - [ ] Update `PLAN.md` after every successful verification signal.
 - [ ] If a dependency changes, pause and re-verify your **Read Set**.
