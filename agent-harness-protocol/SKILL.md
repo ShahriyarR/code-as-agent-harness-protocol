@@ -96,7 +96,7 @@ Memory is not the context window. Memory is a managed state layer.
 |---|---|---|
 | **Working Memory** | Active `PLAN.md`, failing tests, current stack trace | Top of response or active `PLAN.md` |
 | **Semantic Memory** | Repo structure, API schemas, cross-feature dependencies | Queried via `grep`, AST tools, or RAG |
-| **Experiential Memory** | Past successful repair trajectories, debugging patterns | `.agent/experience/` (markdown files) |
+| **Experiential Memory** | Past successful repair trajectories, debugging patterns | `.agent/experience/` (markdown files with `trace` in the filename) |
 | **Long-Term Memory** | Validated fixes, project conventions, accepted patches | `.agent/memory/` (structured records) |
 | **Multi-Agent Memory** | Shared task state, review outcomes, PR history | PR state, Git history, shared Roadmap |
 
@@ -126,6 +126,11 @@ action. Required fields:
   explicit human approval for a gated action.
 - `failure_attribution_logged` — set to `true` after logging the root cause
   of any failure to `.agent/experience/`.
+
+**Experience Trace Files:** Every debugging session, repair, or hypothesis test
+must produce a markdown file in `.agent/experience/` with `trace` in its filename
+(e.g., `debug_trace_20260115.md`). These files are the primary evidence for
+harness telemetry.
 
 ### 3.3 Tool Use (Use Governed Executable Interfaces)
 
