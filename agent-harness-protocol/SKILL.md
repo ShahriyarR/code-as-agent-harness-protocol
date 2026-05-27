@@ -540,6 +540,27 @@ record of dead ends to prevent repeated mistakes:
   decreasing ratio means the agent is repeating mistakes. When the ratio drops
   below 0.5, force a review of the dead-end registry before continuing.
 
+### 5.6 Harness Feedback Loops
+
+The harness is a cybernetic system with multiple feedback loops operating at
+different timescales:
+
+- **Inner Loop (PVDR)** — Seconds to minutes. Detect failure, diagnose, repair,
+  re-verify. Operates on a single feature or file.
+- **Middle Loop (AHE)** — Hours to days. Observe recurring patterns, propose
+  harness mutations, evaluate, promote. Operates on the SKILL.md itself.
+- **Outer Loop (Roadmap)** — Days to weeks. Track feature convergence rate,
+  identify systemic bottlenecks, re-prioritize roadmap. Operates on the project
+  scope.
+
+**Loop Interactions:**
+- Inner loop failures that persist beyond retry limits feed into the middle loop
+  as candidate harness mutations.
+- Middle loop mutations that improve conformance scores feed into the outer loop
+  as evidence that the harness is evolving correctly.
+- Outer loop bottlenecks (e.g., "testing is always the slowest step") feed into
+  the middle loop as proposals for new verification sensors or parallelization.
+
 ---
 
 ## QUICK REFERENCE — THE HARNESS CHECKLIST
