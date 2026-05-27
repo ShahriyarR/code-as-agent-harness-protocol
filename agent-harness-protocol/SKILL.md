@@ -514,12 +514,12 @@ The following actions **require human approval**:
 
 When approval is obtained, record it by setting `human_approval_recorded` in the session log.
 
-### 5.2 Agentic Harness Engineering (Evolution)
+### 5.5 Agentic Harness Engineering (Evolution)
 
 - **Deep Telemetry:** After each feature, log a report to `.agent/experience/` detailing tool failures, retries, and waste. When a failure occurs, log its root cause and set `failure_attribution_logged` in the session log.
 - **Harness Mutation:** If you find a recurring failure (e.g., "Feature A often breaks Feature B's API"), propose a new **Verification Sensor** (e.g., an integration test) in `.agent/harness_proposals.md`. This file must exist and contain at least one proposal.
 
-### 5.5 Dead-End Logging and Failure Learning
+### 5.6 Dead-End Logging and Failure Learning
 
 Every failed approach is a learning opportunity. The harness maintains a structured
 record of dead ends to prevent repeated mistakes:
@@ -540,7 +540,7 @@ record of dead ends to prevent repeated mistakes:
   decreasing ratio means the agent is repeating mistakes. When the ratio drops
   below 0.5, force a review of the dead-end registry before continuing.
 
-### 5.6 Harness Feedback Loops
+### 5.7 Harness Feedback Loops
 
 The harness is a cybernetic system with multiple feedback loops operating at
 different timescales:
