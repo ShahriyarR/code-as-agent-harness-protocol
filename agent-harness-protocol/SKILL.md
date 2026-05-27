@@ -129,6 +129,22 @@ Memory is not the context window. Memory is a managed state layer.
 history into a structured log and **offload** raw traces to `.agent/logs/`. Use
 Semantic Memory to retrieve offloaded plans when needed.
 
+**Hierarchical Memory Access:** Memory retrieval follows a priority cascade:
+1. **Working Memory** first (active plan, current failure).
+2. **Experiential Memory** second (past traces with similar failure signatures).
+3. **Semantic Memory** third (repo structure, API docs).
+4. **Long-Term Memory** last (validated patterns, conventions).
+Never skip levels — if Working Memory contains relevant state, do not query
+Semantic Memory for the same information.
+
+**Structured Context Scheduling:** When managing multiple concurrent tasks,
+maintain a context rotation schedule:
+- **High-Priority Context** (active feature, blocking failure): Always in Working Memory.
+- **Medium-Priority Context** (pending reviews, dependency checks): Offloaded to
+  `.agent/logs/pending/`, reloaded on demand.
+- **Low-Priority Context** (completed features, archived proposals): Stored in
+  `.agent/memory/archive/`, retrieved only when explicitly referenced.
+
 **Session Telemetry Log:** Maintain `.agent/logs/latest_session.json` as a
 structured telemetry log. Update it immediately after performing any harness-critical
 action. Required fields:
@@ -275,6 +291,23 @@ Agents interact through defined modes and workflow topologies:
 - **Transactional Consistency:** If Feature A modifies a file in Feature B's **Read Set**, Feature B's plan must be marked "Stale" and re-verified.
 - **Artifact-Mediated Communication:** Agents communicate via `PLAN.md`, diffs, and logs — not just message passing.
 - **Convergence Criterion:** A feature converges when its `PLAN.md` steps are complete, tests pass, and it has no semantic conflicts with the Root Roadmap.
+
+### 4.5 Agent Pool Scaling
+
+When the task exceeds single-agent capacity, scale through these mechanisms:
+
+- **Dynamic Pool Sizing:** Maintain a pool of available agents. Scale up when the
+  backlog grows (pending features > active agents). Scale down when convergence
+  rate drops (too many agents causing conflicts).
+- **Skill-Based Routing:** Tag agents with capability labels (coder, tester,
+  reviewer, security). Route tasks to agents whose skills match the task profile.
+- **Hierarchical Memory Sharing:** Agents share memory through a tiered structure:
+  - **Local Memory** — agent-specific working context (not shared).
+  - **Feature Memory** — shared among agents working on the same feature.
+  - **Project Memory** — shared across all agents (roadmap, conventions, proposals).
+- **Conflict Arbitration:** When two agents modify overlapping Write Sets, the
+  governor applies a resolution policy: first-writer-wins (default), merge-if-clean,
+  or escalate-to-human (for security-critical files).
 
 ---
 
