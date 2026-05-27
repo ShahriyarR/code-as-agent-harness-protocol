@@ -266,6 +266,25 @@ The harness evolves through a **5-stage loop** that mutates its own rules:
 5. **Promote** — If the mutation improves conformance without regressions,
    merge it into `SKILL.md`. Otherwise, discard and log the attempt.
 
+### 3.7 Rollback and Recovery Strategies
+
+Every plan must declare a **rollback strategy** before execution:
+
+- **Checkpoint-Based Rollback** — Save the current git commit hash, file checksums,
+  and database state before applying changes. On failure, `git reset --hard` to the
+  checkpoint and restore file state.
+- **Incremental Rollback** — If a change is partially applied (some files modified,
+  others not), revert only the modified files and log the partial state to
+  `.agent/experience/` for diagnosis.
+- **Semantic Rollback** — If a change passes tests but introduces a semantic
+  regression (e.g., breaks a downstream feature's Read Set), revert the change
+  and mark the downstream plan as "Stale" for re-verification.
+- **Recovery After Rollback** — After rolling back, the agent must:
+  1. Log the failure signature and rollback action to `.agent/experience/`.
+  2. Update the session telemetry with `failure_attribution_logged`.
+  3. Either retry with a revised hypothesis or abandon the approach and log
+     the dead end in `.agent/memory/dead_ends/`.
+
 ---
 
 ## PART 4 — SCALING THE HARNESS (MULTI-AGENT BEHAVIOR)
