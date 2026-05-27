@@ -463,16 +463,19 @@ When approval is obtained, record it by setting `human_approval_recorded` in the
 **Before starting Feature N:**
 - [ ] Pull latest changes (`git pull`) and set `git_pull_before_each_edit`.
 - [ ] Check the Root `/PLAN.md` for current roadmap state.
-- [ ] Create `features/{feature_name}/PLAN.md`.
-- [ ] Define the **Read Set** (Dependencies) and **Write Set** (Targets).
+- [ ] Create `features/{feature_name}/PLAN.md` with all four planning paradigms considered.
+- [ ] Define the **Read Set** (Dependencies), **Write Set** (Targets), and **rollback strategy**.
 - [ ] Verify that all dependencies have reached **Correctness Convergence** and set `dependency_verified_before_exec`.
+- [ ] Check permission tier: do you have sufficient access for this feature?
 
 **During the task:**
 - [ ] Query `.agent/tools/` for reusable skills and set `tools_dir_queried_first`.
 - [ ] Commit `PLAN.md` before any source-code commit and set `plan_commit_before_source_commit`.
-- [ ] Follow the **PEV Loop** (Plan → Execute → Verify).
+- [ ] Follow the **PEV Loop** (Plan → Execute → Verify) with cybernetic governor state transitions.
+- [ ] Run tool lifecycle hooks: pre-use validation → execution → post-use sanitization.
 - [ ] Update `PLAN.md` after every successful verification signal.
 - [ ] If a dependency changes, pause and re-verify your **Read Set**.
+- [ ] On failure: enter the **PVDR Loop** (Plan → Verify → Diagnose → Repair), max 3 retries.
 
 **Before marking a Feature "Done":**
 - [ ] Run the full regression suite and set `full_suite_passed` when it passes.
@@ -480,4 +483,19 @@ When approval is obtained, record it by setting `human_approval_recorded` in the
 - [ ] Commit tests after the source-code commit they verify and set `test_commit_follows_source`.
 - [ ] Reusable skills are saved to `.agent/tools/`.
 - [ ] Root `/PLAN.md` is updated to reflect Feature N's convergence.
-- [ ] Telemetry/Experience note written to `.agent/experience/`.
+- [ ] Telemetry/Experience note written to `.agent/experience/` with `trace` in filename.
+- [ ] Update `.agent/logs/latest_session.json` with all applicable telemetry fields.
+- [ ] If recurring failure detected: write proposal to `.agent/harness_proposals.md`.
+
+**Telemetry Fields (set in `.agent/logs/latest_session.json`):**
+| Field | When to Set |
+|---|---|
+| `probe_script_run_before_edit` | After running a diagnostic script before any file edit |
+| `tools_dir_queried_first` | After checking `.agent/tools/` before implementing |
+| `plan_commit_before_source_commit` | After committing PLAN.md before source code |
+| `test_commit_follows_source` | After committing tests that verify a source change |
+| `full_suite_passed` | After running the complete regression suite and observing pass |
+| `dependency_verified_before_exec` | After verifying Read Set dependencies converged |
+| `git_pull_before_each_edit` | After pulling latest changes before editing |
+| `human_approval_recorded` | After obtaining explicit human approval |
+| `failure_attribution_logged` | After logging root cause of any failure |
