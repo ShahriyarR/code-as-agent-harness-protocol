@@ -112,6 +112,19 @@ Planning is the primary harness control. In large projects (50+ features), plans
 - **Search-Based Planning:** For ambiguous problems, generate at least two candidate
   approaches in `PLAN.md` before committing to one. Use execution feedback
   (tests, linters) to prune candidates.
+- **Planning Paradigms:** The harness supports four planning strategies, selected
+  based on task characteristics:
+  - **Linear Decomposition** — Break a task into sequential sub-steps. Use when
+    the problem is well-understood and dependencies are acyclic.
+  - **Structure-Grounded** — Derive the plan from the existing codebase structure
+    (module boundaries, API contracts). Use when extending existing systems.
+  - **Search-Based** — Generate multiple candidate approaches, execute probes,
+    and prune based on feedback. Use when the solution space is uncertain.
+  - **Orchestration-Based** — Coordinate multiple parallel plans with dependency
+    resolution and conflict arbitration. Use for multi-agent, multi-feature work.
+- **Planning as Control, Not Reasoning:** A plan is not a reasoning trace. It is a
+  *control object* that declares what will be done, what it depends on, how success
+  is measured, and what happens on failure. Keep plans actionable and verifiable.
 
 ### 3.2 Memory (Preserve State Across All Steps)
 
