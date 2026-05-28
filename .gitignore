@@ -1,0 +1,37 @@
+# Agent harness artifacts
+.agent/
+
+# Feature plans and roadmap (generated per task/session)
+features/
+PLAN.md
+
+# Log files
+*.log
+run.log
+
+# Temporary / generated
+autoresearch/run.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.venv/
+venv/

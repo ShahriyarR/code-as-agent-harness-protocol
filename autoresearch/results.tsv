@@ -1,0 +1,32 @@
+commit	score	status	description
+16ca217	16	keep	Add session telemetry log with probe_script field
+3066044	37	keep	Add experience trace file instruction and create trace file
+624ce22	47	keep	Add tools_dir query checklist and set session field
+eb3d601	53	keep	Add plan commit instruction and set session field
+bcc9449	59	keep	Add test commit instruction and set session field
+2106d07	65	keep	Add full suite instruction and set session field
+51fdad7	70	keep	Add features/PLAN.md instruction and create directory
+2c9c29f	75	keep	Add root PLAN.md Verified instruction and create file
+a935ad5	80	keep	Add dependency verification instruction and set session field
+711aec3	85	keep	Add git pull instruction and set session field
+d6bac02	90	keep	Add human approval instruction and set session field
+da33477	95	keep	Add failure attribution instruction and set session field
+69dee02	100	keep	Add harness proposals instruction and create file
+8a60983	100	keep	Add PEV Loop cybernetic-governor + AHE 5-stage loop (advances Mechanisms gap)
+05e16ff	100	keep	Add Shared Harness Substrate + Multi-Agent Collaboration (advances Scaling gap)
+a2c1d3d	100	keep	Add Multi-Tier Permission + Verification Stack + Transactional State (advances Safety gap)
+740589e	100	keep	Add tool lifecycle hooks + affordance modeling + behavior trees (advances Interface/Mechanisms)
+ce6aa82	100	keep	Add symbolic solvers + process reward models + execution artifacts + simulators (advances Interface gap)
+ffdecf9	100	keep	Add hierarchical memory + context scheduling + agent pool scaling (advances Memory/Scaling gaps)
+4eca968	100	keep	Add four planning paradigms + planning-as-control (advances Mechanisms gap)
+7e15e38	100	keep	Add code-as-executable-boundary concept (advances Interface gap)
+f5c0f7a	100	keep	Add PVDR repair cycle with retry limits (advances Mechanisms gap)
+1d788b5	100	keep	Add Organicity section for code style/pattern conformance (advances Scaling gap)
+e25af33	100	keep	Add rollback and recovery strategies (advances Mechanisms gap)
+038bb92	100	keep	Improve QUICK REFERENCE checklist with telemetry table + PVDR + lifecycle hooks
+ff2ef1c	100	keep	Add deterministic sensors table + sensor fusion priority (advances Mechanisms gap)
+121eff8	100	keep	Add harness state machine with state transitions (advances Mechanisms gap)
+51e0738	100	keep	Add permission escalation policies (advances Safety gap)
+3802bdd	100	keep	Add dead-end logging + failure taxonomy + learning rate (advances Mechanisms/Safety)
+813435b	100	keep	Add harness feedback loops (inner/middle/outer) with interactions (advances Mechanisms gap)
+21afa6d	100	keep	Fix section numbering in Part 5 (5.1-5.7 sequential)
