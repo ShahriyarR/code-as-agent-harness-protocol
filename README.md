@@ -54,3 +54,47 @@ In the Spec-driven approach, if your spec is slightly ambiguous, the AI might ha
 In the Harness paradigm, the AI is forced to interact with the "Harness" (the compiler/tests) until it achieves Correctness Convergence. 
 
 Even if the AI doesn't fully understand the spec's nuance yet, it cannot lie about the test results.
+
+# Autoresearch
+
+This repo uses Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) pattern to iteratively improve `agent-harness-protocol/SKILL.md`.
+
+## How it works
+
+An Evolution Agent runs an autonomous loop:
+
+1. **Hypothesize** — Pick one gap from the paper's Knowledge Base (what a good harness should contain).
+2. **Apply** — Edit `SKILL.md` to close that gap.
+3. **Evaluate** — Run `autoresearch/prepare.py` as a regression gate.
+4. **Decide** — Keep the change if score stays at 100/100 and advances paper-conformance. Otherwise discard.
+5. **Repeat** — Run indefinitely.
+
+The agent never modifies `prepare.py` (the fixed evaluation harness). It only edits `SKILL.md`.
+
+## Evaluation criteria
+
+`prepare.py` scores conformance across four dimensions (100 points total):
+
+| Dimension | Weight | What it checks |
+|---|---|---|
+| **Interface (§2)** | 30 pts | Probe scripts, experience traces, tools directory queried |
+| **Mechanisms (§3)** | 30 pts | Plan-before-source, test-after-source, full suite passed |
+| **Scaling (§4)** | 20 pts | Feature PLAN.md exists, root PLAN.md has "Verified", dependency verified, git pull |
+| **Safety (§5)** | 20 pts | Human approval recorded, failure attribution logged, experience traces, harness proposals |
+
+The harness is saturated at **100/100**. Once saturated, it acts as a regression gate — no change is accepted if it causes regression.
+
+## Paper-conformance
+
+Beyond the 100-point synthetic score, the goal is alignment with the [Code as Agent Harness](https://arxiv.org/abs/2605.18747) survey. The Knowledge Base in `autoresearch/program.md` lists concepts from the paper that a complete harness should contain. Each iteration picks one missing concept and adds it to `SKILL.md`, justified by which paper section it addresses.
+
+## Results
+
+30 iterations completed. SKILL.md grew from 206 → 606 lines while maintaining 100/100. Key additions:
+
+- **Interface:** Symbolic solvers, process reward models, execution artifacts, affordance modeling, behavior trees, code-as-executable-boundary
+- **Mechanisms:** PEV cybernetic governor, PVDR repair cycle, four planning paradigms, tool lifecycle hooks, deterministic sensors, harness state machine, rollback strategies, feedback loops, dead-end logging
+- **Scaling:** Shared harness substrate (4 levels), 6 convergence patterns, multi-agent collaboration modes, agent pool scaling, organicity
+- **Safety:** Multi-tier permission model, escalation policies, verification stack (9 layers), transactional shared state
+
+See `autoresearch/results.tsv` for the full iteration log.
