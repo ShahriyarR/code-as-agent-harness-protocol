@@ -1,8 +1,9 @@
 # Agent harness artifacts
 .agent/
 
-# Feature plans (generated per task)
+# Feature plans and roadmap (generated per task/session)
 features/
+PLAN.md
 
 # Log files
 *.log
