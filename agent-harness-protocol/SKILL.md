@@ -1,4 +1,5 @@
 ---
+name: agent-harness-protocol
 description: This file governs how this agent reasons, acts, manages memory, uses tools, verifies progress, and coordinates across all tasks in this repository.
 ---
 
